@@ -1,6 +1,6 @@
 <!-- components/MainRouterView.vue -->
 <script setup>
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
 import { useRouter, RouterView } from 'vue-router'
 import { drawerState } from '../plugins/DrawerRouterPlugin'
 
