@@ -10,48 +10,58 @@ export const drawerState = reactive({
 
 export function createDrawerRouterPlugin() {
   const drawerRoutes = new Set()
-  
+  let intendedRouteAfterHome = null
+
   return {
     install(app, { router }) {
-      // Scan all routes for drawer meta
       const scanRoutes = (routes, parentPath = '') => {
         routes.forEach(route => {
           const fullPath = parentPath + (route.path.startsWith('/') ? route.path : `/${route.path}`)
-          
+
           if (route.meta?.drawer) {
             drawerRoutes.add(route.name || fullPath)
           }
-          
+
           if (route.children) {
             scanRoutes(route.children, fullPath)
           }
         })
       }
-      
+
       scanRoutes(router.getRoutes())
-      
-      // Register global beforeEach guard
+
+      const isInitialNavigation = (route) => route.name === undefined && route.matched.length === 0
+
       router.beforeEach((to, from, next) => {
         const isDrawerRoute = isDrawerDestination(to, drawerRoutes)
-        
+
         if (isDrawerRoute) {
-          // Store the current route as previous if this is first drawer navigation
-          if (!drawerState.isOpen) {
-            drawerState.previousRoute = markRaw(from)
-            drawerState.isOpen = true
+          if (isInitialNavigation(from)) {
+            intendedRouteAfterHome = to.fullPath
+            next({ path: '/', replace: true })
+          } else {
+            if (!drawerState.isOpen) {
+              drawerState.previousRoute = markRaw(from)
+              drawerState.isOpen = true
+            }
+            drawerState.currentDrawerRoute = markRaw(to)
+            next()
           }
-          drawerState.currentDrawerRoute = markRaw(to)
-          next()
         } else {
-          // Regular route navigation
           drawerState.isOpen = false
           drawerState.currentDrawerRoute = null
           drawerState.previousRoute = null
           next()
         }
       })
-      
-      // Provide drawer state to the app
+
+      router.afterEach(() => {
+        if (intendedRouteAfterHome) {
+          router.push(intendedRouteAfterHome)
+          intendedRouteAfterHome = null
+        }
+      })
+
       app.provide('drawerRouter', {
         state: drawerState,
         isDrawerRoute: (routeName) => drawerRoutes.has(routeName),
@@ -61,24 +71,17 @@ export function createDrawerRouterPlugin() {
   }
 }
 
-// Helper function to check if destination is a drawer route
 function isDrawerDestination(route, drawerRoutes) {
-  // Check if this route is directly a drawer route
-  if (route.meta?.drawer) return true;
-  
-  // Check if this route name is registered as a drawer route
-  if (route.name && drawerRoutes.has(route.name)) return true;
-  
-  // Check if any of the matched routes have drawer meta
-  if (route.matched && route.matched.some(r => r.meta?.drawer)) return true;
-  
-  return false;
+  if (route.meta?.drawer) return true
+  if (route.name && drawerRoutes.has(route.name)) return true
+  if (route.matched && route.matched.some(r => r.meta?.drawer)) return true
+  return false
 }
 
-// Composable for components to use
+import { useRouter } from 'vue-router'
 export function useDrawerRouter() {
-  const router = useRouter();
-  
+  const router = useRouter()
+
   return {
     drawerState,
     isDrawerOpen: () => drawerState.isOpen,
