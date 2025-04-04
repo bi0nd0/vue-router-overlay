@@ -1,0 +1,1 @@
+<template><div>Notifications Drawer Content</div></template>
