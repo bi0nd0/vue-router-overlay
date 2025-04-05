@@ -39,18 +39,24 @@ export function createDrawerRouterPlugin() {
           if (isInitialNavigation(from)) {
             intendedRouteAfterHome = to.fullPath
             next({ path: '/', replace: true })
-          } else {
-            if (!drawerState.isOpen) {
-              drawerState.previousRoute = markRaw(from)
-              drawerState.isOpen = true
-            }
-            drawerState.currentDrawerRoute = markRaw(to)
-            next()
+            return
           }
+
+          if (!drawerState.isOpen) {
+            drawerState.previousRoute = markRaw(from)
+            drawerState.isOpen = true
+          }
+          drawerState.currentDrawerRoute = markRaw(to)
+          next()
+
         } else {
-          drawerState.isOpen = false
-          drawerState.currentDrawerRoute = null
-          drawerState.previousRoute = null
+          if(drawerState.isOpen) {
+            drawerState.isOpen = false
+          } else {
+            // do not clean if we are closing, so state is kept in previous components
+            drawerState.currentDrawerRoute = null
+            drawerState.previousRoute = null
+          }
           next()
         }
       })

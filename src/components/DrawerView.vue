@@ -51,6 +51,7 @@ function handleKeyDown(e) {
 }
 
 function closeDrawer() {
+  // console.log('closing drawer')
   if (drawerState.previousRoute) {
     router.push(drawerState.previousRoute)
   }
@@ -66,13 +67,13 @@ onBeforeUnmount(() => {
 })
 
 // Handle browser back button
-watch(() => router.currentRoute.value, (newRoute) => {
+/* watch(() => router.currentRoute.value, (newRoute) => {
   if (isOpen.value && !newRoute.meta?.drawer && 
       !newRoute.matched?.some(r => r.meta?.drawer)) {
     drawerState.isOpen = false
     drawerState.currentDrawerRoute = null
   }
-})
+}) */
 </script>
 
 <template>

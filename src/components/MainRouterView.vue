@@ -6,6 +6,8 @@ import { drawerState } from '../plugins/DrawerRouterPlugin'
 
 const router = useRouter()
 
+const getDefaultRoute = () => drawerState.previousRoute || router.currentRoute.value;
+
 // Determine which route to display in the main view
 const displayRoute = computed(() => {
   if (drawerState.isOpen && drawerState.currentDrawerRoute) {
@@ -26,12 +28,12 @@ const displayRoute = computed(() => {
       };
     } else if (drawerIndex === 0) {
       // If the drawer component is at the root, show the previous route
-      return drawerState.previousRoute || router.currentRoute.value;
+      return getDefaultRoute();
     }
   }
   
-  // Default: show current route for non-drawer routes
-  return router.currentRoute.value;
+  // Default
+  return getDefaultRoute();
 })
 
 // Keep track of the route for rendering
@@ -41,5 +43,7 @@ const routeKey = computed(() => {
 </script>
 
 <template>
-  <RouterView :key="routeKey" :route="displayRoute" />
+    <RouterView :key="routeKey" :route="displayRoute" v-slot="{ Component }">
+
+    </RouterView>
 </template>
