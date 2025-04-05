@@ -1,6 +1,5 @@
 <!-- App.vue -->
 <script setup>
-import { RouterView } from 'vue-router'
 import DrawerView from './components/DrawerView.vue'
 import MainRouterView from './components/MainRouterView.vue'
 
@@ -13,7 +12,9 @@ import MainRouterView from './components/MainRouterView.vue'
     <router-link to="/settings">Settings</router-link>
     <router-link to="/notifications">Notifications</router-link>
     <router-link to="/test">Test</router-link>
-    <router-link to="/test/test">Test Nested</router-link>
+    <router-link to="/test/hello-world">Hello World</router-link>
+    <router-link to="/test/nested">Nested</router-link>
+    <router-link to="/test/nested/notification">Nested Notification</router-link>
   </nav>
     <!-- Main router view for regular routes -->
     <!-- <RouterView /> -->
@@ -23,3 +24,9 @@ import MainRouterView from './components/MainRouterView.vue'
     <DrawerView width="450px" position="right" />
   </div>
 </template>
+<style>
+nav {
+  display: flex;
+  gap: 5px;
+}
+</style>

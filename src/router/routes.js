@@ -2,8 +2,9 @@
 import HomeView from "../views/HomeView.vue";
 import SettingsView from "../views/SettingsView.vue";
 import TestView from "../views/TestView.vue";
-import NotificationsDrawer from "../views/NotificationsDrawer.vue";
+import Notification from "../views/Notification.vue";
 import HelloWorld from "../components/HelloWorld.vue";
+import NotificationsDrawer from "../views/NotificationsDrawer.vue";
 
 export default [
   {
@@ -19,7 +20,7 @@ export default [
   {
     path: "/notifications",
     name: "notifications",
-    component: NotificationsDrawer,
+    component: Notification,
     meta: { drawer: true }, // This parent and all children will open in drawer
   },
   {
@@ -28,11 +29,25 @@ export default [
     children: [
       {
         path: "",
-        name: "nested",
-        component: NotificationsDrawer,
+        name: "test",
+        component: Notification,
         meta: { drawer: true, title: "something nested" },
       },
-      { path: "test", name: "nested-test", component: HelloWorld },
+      { path: "hello-world", name: "hello-world", component: HelloWorld },
+      {
+        path: "nested",
+        name: "nested-test",
+        component: NotificationsDrawer,
+        meta: { drawer: true },
+        children: [
+          {
+            path: "notification",
+            name: "nested-notifications",
+            component: Notification,
+            meta: { drawer: true }, // This parent and all children will open in drawer
+          },
+        ],
+      },
     ],
   },
 ];

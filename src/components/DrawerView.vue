@@ -1,6 +1,6 @@
 <!-- components/DrawerView.vue -->
 <script setup>
-import { watch, computed, inject, onMounted, onBeforeUnmount, reactive } from 'vue'
+import { computed, onMounted, onBeforeUnmount, reactive } from 'vue'
 import { useRouter, RouterView } from 'vue-router'
 import { drawerState } from '../plugins/DrawerRouterPlugin'
 
@@ -25,16 +25,13 @@ const drawerRouteView = computed(() => {
   if (!drawerState.currentDrawerRoute) return null;
   
   // Find the last drawer component in the matched routes
-  const matched = [...drawerState.currentDrawerRoute.matched];
-  const drawerIndex = matched.findLastIndex(route => route.meta?.drawer);
+  const matched = [...drawerState.currentDrawerRoute.matched].filter(_route => _route.meta?.drawer===true);
   
-  if (drawerIndex === -1) return drawerState.currentDrawerRoute;
-  
-  // Create a modified route object with only the drawer component
-  // This prevents parent views from being rendered in the drawer
+  // Create a modified route object with only the drawer views
+  // This prevents non-drawer views from being rendered in the drawer
   return {
     ...drawerState.currentDrawerRoute,
-    matched: drawerIndex >= 0 ? [matched[drawerIndex]] : matched
+    matched,
   };
 });
 
@@ -81,10 +78,16 @@ onBeforeUnmount(() => {
     <div class="drawer-backdrop" @click="closeDrawer"></div>
     <div class="drawer" :style="drawerStyle">
       <div class="drawer-header">
+        <div>
+          <span>{{ drawerState.currentDrawerRoute.meta?.title ?? '' }}</span>
+        </div>
         <button class="drawer-close" @click="closeDrawer">×</button>
       </div>
       <div class="drawer-content">
-        <RouterView v-if="drawerRouteView" :route="drawerRouteView" />
+        <RouterView v-if="drawerRouteView" :route="drawerRouteView" v-slot="{ Component }">
+          <div>asdasdsa</div>
+          <component :is="Component"/>
+        </RouterView>
       </div>
     </div>
   </div>
@@ -127,7 +130,8 @@ onBeforeUnmount(() => {
   padding: 16px;
   border-bottom: 1px solid #eee;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: start;
 }
 
 .drawer-close {
