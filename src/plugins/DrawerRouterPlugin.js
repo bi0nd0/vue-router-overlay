@@ -8,8 +8,8 @@ export const overlayState = reactive({
   overlayRoute: null
 })
 
-export function createDrawerRouterPlugin() {
-  const drawerRoutes = new Set()
+export function createOverlayRouterPlugin() {
+  const overlayRoutes = new Set()
   let intendedRouteAfterHome = null
 
   return {
@@ -19,7 +19,7 @@ export function createDrawerRouterPlugin() {
           const fullPath = parentPath + (route.path.startsWith('/') ? route.path : `/${route.path}`)
 
           if (route.meta?.overlay) {
-            drawerRoutes.add(route.name || fullPath)
+            overlayRoutes.add(route.name || fullPath)
           }
 
           if (route.children) {
@@ -33,9 +33,9 @@ export function createDrawerRouterPlugin() {
       const isInitialNavigation = (route) => route.name === undefined && route.matched.length === 0
 
       router.beforeEach((to, from, next) => {
-        const isDrawerRoute = isDrawerDestination(to, drawerRoutes)
+        const isOverlayRoute = isOverlayDestination(to, overlayRoutes)
 
-        if (isDrawerRoute) {
+        if (isOverlayRoute) {
           if (isInitialNavigation(from)) {
             intendedRouteAfterHome = to.fullPath
             next({ path: '/', replace: true })
@@ -68,30 +68,30 @@ export function createDrawerRouterPlugin() {
         }
       })
 
-      app.provide('drawerRouter', {
+      app.provide('overlayRouter', {
         state: overlayState,
-        isDrawerRoute: (routeName) => drawerRoutes.has(routeName),
-        isDrawerActive: () => overlayState.isOpen
+        isOverlayRoute: (routeName) => overlayRoutes.has(routeName),
+        isOverlayActive: () => overlayState.isOpen
       })
     }
   }
 }
 
-function isDrawerDestination(route, drawerRoutes) {
+function isOverlayDestination(route, overlayRoutes) {
   if (route.meta?.overlay) return true
-  if (route.name && drawerRoutes.has(route.name)) return true
+  if (route.name && overlayRoutes.has(route.name)) return true
   if (route.matched && route.matched.some(r => r.meta?.overlay)) return true
   return false
 }
 
 import { useRouter } from 'vue-router'
-export function useDrawerRouter() {
+export function useOverlayRouter() {
   const router = useRouter()
 
   return {
     overlayState,
-    isDrawerOpen: () => overlayState.isOpen,
-    closeDrawer() {
+    isOverlayOpen: () => overlayState.isOpen,
+    closeOverlay() {
       if (overlayState.baseRoute) {
         router.push(overlayState.baseRoute)
       }
