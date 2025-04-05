@@ -12,25 +12,25 @@ const isOpen = computed(() => drawerState.isOpen)
 // Create a modified version of the current drawer route
 // that removes parent routes from the matched array
 const drawerRouteView = computed(() => {
-  if (!drawerState.currentDrawerRoute) return null;
+  if (!drawerState.overlayRoute) return null;
   
   // Find the last drawer component in the matched routes
-  const matched = [...drawerState.currentDrawerRoute.matched];
+  const matched = [...drawerState.overlayRoute.matched];
   const drawerIndex = matched.findLastIndex(route => route.meta?.drawer);
   
-  if (drawerIndex === -1) return drawerState.currentDrawerRoute;
+  if (drawerIndex === -1) return drawerState.overlayRoute;
   
   // Create a modified route object with only the drawer component
   return {
-    ...drawerState.currentDrawerRoute,
+    ...drawerState.overlayRoute,
     matched: drawerIndex >= 0 ? [matched[drawerIndex]] : matched
   };
 });
 
 // Methods for drawer control
 function closeDrawer() {
-  if (drawerState.previousRoute) {
-    router.push(drawerState.previousRoute)
+  if (drawerState.baseRoute) {
+    router.push(drawerState.baseRoute)
   }
 }
 
@@ -39,7 +39,7 @@ watch(() => router.currentRoute.value, (newRoute) => {
   if (isOpen.value && !newRoute.meta?.drawer && 
       !newRoute.matched?.some(r => r.meta?.drawer)) {
     drawerState.isOpen = false
-    drawerState.currentDrawerRoute = null
+    drawerState.overlayRoute = null
   }
 })
 

@@ -4,8 +4,8 @@ import { markRaw } from 'vue'
 
 export const drawerState = reactive({
   isOpen: false,
-  previousRoute: null,
-  currentDrawerRoute: null
+  baseRoute: null,
+  overlayRoute: null
 })
 
 export function createDrawerRouterPlugin() {
@@ -43,10 +43,10 @@ export function createDrawerRouterPlugin() {
           }
 
           if (!drawerState.isOpen) {
-            drawerState.previousRoute = markRaw(from)
+            drawerState.baseRoute = markRaw(from)
             drawerState.isOpen = true
           }
-          drawerState.currentDrawerRoute = markRaw(to)
+          drawerState.overlayRoute = markRaw(to)
           next()
 
         } else {
@@ -54,8 +54,8 @@ export function createDrawerRouterPlugin() {
             drawerState.isOpen = false
           } else {
             // do not clean if we are closing, so state is kept in previous components
-            drawerState.currentDrawerRoute = null
-            drawerState.previousRoute = null
+            drawerState.overlayRoute = null
+            drawerState.baseRoute = null
           }
           next()
         }
@@ -92,8 +92,8 @@ export function useDrawerRouter() {
     drawerState,
     isDrawerOpen: () => drawerState.isOpen,
     closeDrawer() {
-      if (drawerState.previousRoute) {
-        router.push(drawerState.previousRoute)
+      if (drawerState.baseRoute) {
+        router.push(drawerState.baseRoute)
       }
     }
   }

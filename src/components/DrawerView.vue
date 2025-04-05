@@ -22,15 +22,15 @@ const isOpen = computed(() => drawerState.isOpen)
 // Create a modified version of the current drawer route
 // that removes parent routes from the matched array
 const drawerRouteView = computed(() => {
-  if (!drawerState.currentDrawerRoute) return null;
+  if (!drawerState.overlayRoute) return null;
   
   // Find the last drawer component in the matched routes
-  const matched = [...drawerState.currentDrawerRoute.matched].filter(_route => _route.meta?.drawer===true);
+  const matched = [...drawerState.overlayRoute.matched].filter(_route => _route.meta?.drawer===true);
   
   // Create a modified route object with only the drawer views
   // This prevents non-drawer views from being rendered in the drawer
   return {
-    ...drawerState.currentDrawerRoute,
+    ...drawerState.overlayRoute,
     matched,
   };
 });
@@ -49,8 +49,8 @@ function handleKeyDown(e) {
 
 function closeDrawer() {
   // console.log('closing drawer')
-  if (drawerState.previousRoute) {
-    router.push(drawerState.previousRoute)
+  if (drawerState.baseRoute) {
+    router.push(drawerState.baseRoute)
   }
 }
 
@@ -68,7 +68,7 @@ onBeforeUnmount(() => {
   if (isOpen.value && !newRoute.meta?.drawer && 
       !newRoute.matched?.some(r => r.meta?.drawer)) {
     drawerState.isOpen = false
-    drawerState.currentDrawerRoute = null
+    drawerState.overlayRoute = null
   }
 }) */
 </script>
@@ -79,7 +79,7 @@ onBeforeUnmount(() => {
     <div class="drawer" :style="drawerStyle">
       <div class="drawer-header">
         <div>
-          <span>{{ drawerState.currentDrawerRoute.meta?.title ?? '' }}</span>
+          <span>{{ drawerState.overlayRoute.meta?.title ?? '' }}</span>
         </div>
         <button class="drawer-close" @click="closeDrawer">×</button>
       </div>

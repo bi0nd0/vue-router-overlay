@@ -7,18 +7,18 @@ import { drawerState } from "../plugins/DrawerRouterPlugin";
 const router = useRouter();
 
 const getDefaultRoute = () =>
-  drawerState.previousRoute || router.currentRoute.value;
+  drawerState.baseRoute || router.currentRoute.value;
 
 // Determine which route to display in the main view
 const displayRoute = computed(() => {
-  if (drawerState.isOpen && drawerState.previousRoute) {
-    const previousRoute = drawerState.previousRoute;
+  if (drawerState.isOpen && drawerState.baseRoute) {
+    const baseRoute = drawerState.baseRoute;
     // filter routes that are not marked for drawer
-    const matched = [...previousRoute.matched].filter(
+    const matched = [...baseRoute.matched].filter(
       (_route) => _route.meta?.drawer !== true
     );
     return {
-      ...previousRoute,
+      ...baseRoute,
       matched,
     };
   }
