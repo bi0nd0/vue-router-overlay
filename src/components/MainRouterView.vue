@@ -2,20 +2,20 @@
 <script setup>
 import { computed } from "vue";
 import { useRouter, RouterView } from "vue-router";
-import { drawerState } from "../plugins/DrawerRouterPlugin";
+import { overlayState } from "../plugins/DrawerRouterPlugin";
 
 const router = useRouter();
 
 const getDefaultRoute = () =>
-  drawerState.baseRoute || router.currentRoute.value;
+  overlayState.baseRoute || router.currentRoute.value;
 
 // Determine which route to display in the main view
 const displayRoute = computed(() => {
-  if (drawerState.isOpen && drawerState.baseRoute) {
-    const baseRoute = drawerState.baseRoute;
+  if (overlayState.isOpen && overlayState.baseRoute) {
+    const baseRoute = overlayState.baseRoute;
     // filter routes that are not marked for drawer
     const matched = [...baseRoute.matched].filter(
-      (_route) => _route.meta?.drawer !== true
+      (_route) => _route.meta?.overlay !== true
     );
     return {
       ...baseRoute,

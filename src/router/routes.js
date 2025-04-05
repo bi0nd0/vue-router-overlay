@@ -21,7 +21,7 @@ export default [
     path: "/notifications",
     name: "notifications",
     component: Notification,
-    meta: { drawer: true }, // This parent and all children will open in drawer
+    meta: { overlay: true }, // This parent and all children will open in drawer
   },
   {
     path: "/test",
@@ -31,20 +31,20 @@ export default [
         path: "",
         name: "test",
         component: Notification,
-        meta: { drawer: true, title: "something nested" },
+        meta: { overlay: true, title: "something nested" },
       },
       { path: "hello-world", name: "hello-world", component: HelloWorld },
       {
         path: "nested",
         name: "nested-test",
         component: NotificationsDrawer,
-        meta: { drawer: true },
+        meta: { overlay: true },
         children: [
           {
             path: "notification",
             name: "nested-notifications",
             component: Notification,
-            meta: { drawer: true }, // This parent and all children will open in drawer
+            meta: { overlay: true }, // This parent and all children will open in drawer
           },
         ],
       },

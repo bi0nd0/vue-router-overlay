@@ -1,6 +1,8 @@
 <!-- App.vue -->
 <script setup>
 import DrawerView from './components/DrawerView.vue'
+import OverlayView from './components/OverlayView.vue'
+import Drawer from './components/Drawer.vue'
 import MainRouterView from './components/MainRouterView.vue'
 
 </script>
@@ -21,7 +23,14 @@ import MainRouterView from './components/MainRouterView.vue'
     <MainRouterView />
     
     <!-- Drawer view for drawer routes -->
-    <DrawerView width="450px" position="right" />
+    <!-- <DrawerView width="450px" position="right" /> -->
+     <OverlayView v-slot="{isOpen, Component, closeOverlay}">
+      {{ isOpen }}
+        <Drawer :is-open="isOpen" @hide="closeOverlay">
+          asdas
+          <component :is="Component"/>
+        </Drawer>
+      </OverlayView>
   </div>
 </template>
 <style>

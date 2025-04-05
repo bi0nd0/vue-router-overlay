@@ -2,7 +2,7 @@
 import { reactive } from 'vue'
 import { markRaw } from 'vue'
 
-export const drawerState = reactive({
+export const overlayState = reactive({
   isOpen: false,
   baseRoute: null,
   overlayRoute: null
@@ -18,7 +18,7 @@ export function createDrawerRouterPlugin() {
         routes.forEach(route => {
           const fullPath = parentPath + (route.path.startsWith('/') ? route.path : `/${route.path}`)
 
-          if (route.meta?.drawer) {
+          if (route.meta?.overlay) {
             drawerRoutes.add(route.name || fullPath)
           }
 
@@ -42,20 +42,20 @@ export function createDrawerRouterPlugin() {
             return
           }
 
-          if (!drawerState.isOpen) {
-            drawerState.baseRoute = markRaw(from)
-            drawerState.isOpen = true
+          if (!overlayState.isOpen) {
+            overlayState.baseRoute = markRaw(from)
+            overlayState.isOpen = true
           }
-          drawerState.overlayRoute = markRaw(to)
+          overlayState.overlayRoute = markRaw(to)
           next()
 
         } else {
-          if(drawerState.isOpen) {
-            drawerState.isOpen = false
+          if(overlayState.isOpen) {
+            overlayState.isOpen = false
           } else {
             // do not clean if we are closing, so state is kept in previous components
-            drawerState.overlayRoute = null
-            drawerState.baseRoute = null
+            overlayState.overlayRoute = null
+            overlayState.baseRoute = null
           }
           next()
         }
@@ -69,18 +69,18 @@ export function createDrawerRouterPlugin() {
       })
 
       app.provide('drawerRouter', {
-        state: drawerState,
+        state: overlayState,
         isDrawerRoute: (routeName) => drawerRoutes.has(routeName),
-        isDrawerActive: () => drawerState.isOpen
+        isDrawerActive: () => overlayState.isOpen
       })
     }
   }
 }
 
 function isDrawerDestination(route, drawerRoutes) {
-  if (route.meta?.drawer) return true
+  if (route.meta?.overlay) return true
   if (route.name && drawerRoutes.has(route.name)) return true
-  if (route.matched && route.matched.some(r => r.meta?.drawer)) return true
+  if (route.matched && route.matched.some(r => r.meta?.overlay)) return true
   return false
 }
 
@@ -89,11 +89,11 @@ export function useDrawerRouter() {
   const router = useRouter()
 
   return {
-    drawerState,
-    isDrawerOpen: () => drawerState.isOpen,
+    overlayState,
+    isDrawerOpen: () => overlayState.isOpen,
     closeDrawer() {
-      if (drawerState.baseRoute) {
-        router.push(drawerState.baseRoute)
+      if (overlayState.baseRoute) {
+        router.push(overlayState.baseRoute)
       }
     }
   }
