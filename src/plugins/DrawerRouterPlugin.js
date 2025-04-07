@@ -2,6 +2,10 @@
 import { reactive } from 'vue'
 import { markRaw } from 'vue'
 
+import MainRouterView from '../components/MainRouterView.vue'
+import OverlayRouterView from '../components/OverlayRouterView.vue'
+import DrawerRouterView from '../components/DrawerRouterView.vue'
+
 export const overlayState = reactive({
   isOpen: false,
   baseRoute: null,
@@ -14,6 +18,11 @@ export function createOverlayRouterPlugin() {
 
   return {
     install(app, { router }) {
+
+      app.component('MainRouterView', MainRouterView);
+      app.component('OverlayRouterView', OverlayRouterView);
+      app.component('DrawerRouterView', DrawerRouterView);
+
       const scanRoutes = (routes, parentPath = '') => {
         routes.forEach(route => {
           const fullPath = parentPath + (route.path.startsWith('/') ? route.path : `/${route.path}`)

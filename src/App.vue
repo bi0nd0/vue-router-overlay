@@ -1,8 +1,5 @@
 <!-- App.vue -->
 <script setup>
-import DrawerRouterView from './components/DrawerRouterView.vue'
-import Drawer from './components/Drawer.vue'
-import MainRouterView from './components/MainRouterView.vue'
 </script>
 
 <template>
