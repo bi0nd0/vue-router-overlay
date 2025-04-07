@@ -12,6 +12,10 @@ export const overlayState = reactive({
   overlayRoute: null
 })
 
+export const closeOverlay = () => {
+  if(!overlayState.isOpen || !overlayState.baseRoute) return
+}
+
 export function createOverlayRouterPlugin() {
   const overlayRoutes = new Set()
   let intendedRouteAfterHome = null

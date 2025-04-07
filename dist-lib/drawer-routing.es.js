@@ -1,29 +1,29 @@
-import { computed as v, createBlock as m, openBlock as p, unref as f, onMounted as E, onBeforeUnmount as S, createCommentVNode as O, withCtx as y, renderSlot as g, normalizeProps as $, guardReactiveProps as C, resolveDynamicComponent as k, toRefs as x, createElementBlock as R, Fragment as B, createTextVNode as M, toDisplayString as _, createElementVNode as d, normalizeStyle as N, createVNode as P, reactive as F, markRaw as w } from "vue";
-import { useRouter as b, RouterView as V } from "vue-router";
+import { computed as f, createBlock as m, openBlock as p, unref as v, onMounted as E, onBeforeUnmount as S, createCommentVNode as g, withCtx as y, renderSlot as b, normalizeProps as $, guardReactiveProps as C, resolveDynamicComponent as k, toRefs as x, createElementBlock as _, Fragment as B, createTextVNode as M, toDisplayString as w, createElementVNode as d, normalizeStyle as N, createVNode as P, reactive as F, markRaw as O } from "vue";
+import { useRouter as R, RouterView as V } from "vue-router";
 const H = {
   __name: "MainRouterView",
-  setup(n) {
-    const s = b(), e = () => t.baseRoute || s.currentRoute.value, o = v(() => {
+  setup(o) {
+    const s = R(), e = () => t.baseRoute || s.currentRoute.value, n = f(() => {
       if (t.isOpen && t.baseRoute) {
-        const u = t.baseRoute, a = [...u.matched].filter(
-          (i) => {
+        const i = t.baseRoute, a = [...i.matched].filter(
+          (u) => {
             var r;
-            return ((r = i.meta) == null ? void 0 : r.overlay) !== !0;
+            return ((r = u.meta) == null ? void 0 : r.overlay) !== !0;
           }
         );
         return {
-          ...u,
+          ...i,
           matched: a
         };
       }
       return e();
-    }), l = v(() => o.value.fullPath);
-    return (u, a) => (p(), m(f(V), {
+    }), l = f(() => n.value.fullPath);
+    return (i, a) => (p(), m(v(V), {
       key: l.value,
-      route: o.value
+      route: n.value
     }, null, 8, ["route"]));
   }
-}, z = (n) => n.filter((s) => {
+}, z = (o) => o.filter((s) => {
   var e;
   return ((e = s.meta) == null ? void 0 : e.overlay) === !0;
 }), D = {
@@ -35,31 +35,31 @@ const H = {
       default: z
     }
   },
-  setup(n) {
-    const s = b(), e = v(() => t.isOpen), o = n, l = v(() => {
+  setup(o) {
+    const s = R(), e = f(() => t.isOpen), n = o, l = f(() => {
       if (!t.overlayRoute) return null;
-      const i = o.filterMatchedRoutes([...t.overlayRoute.matched]);
+      const u = n.filterMatchedRoutes([...t.overlayRoute.matched]);
       return {
         ...t.overlayRoute,
-        matched: i
+        matched: u
       };
     });
-    function u(i) {
-      i.key === "Escape" && e.value && a();
+    function i(u) {
+      u.key === "Escape" && e.value && a();
     }
     const a = () => {
       console.log("closing drawer"), t.baseRoute && s.push(t.baseRoute);
     };
     return E(() => {
-      window.addEventListener("keydown", u);
+      window.addEventListener("keydown", i);
     }), S(() => {
-      window.removeEventListener("keydown", u);
-    }), (i, r) => l.value ? (p(), m(f(V), {
+      window.removeEventListener("keydown", i);
+    }), (u, r) => l.value ? (p(), m(v(V), {
       key: 0,
       route: l.value
     }, {
       default: y((c) => [
-        g(i.$slots, "default", $(C({ ...c, isOpen: e.value, closeOverlay: a })), () => [
+        b(u.$slots, "default", $(C({ ...c, isOpen: e.value, closeOverlay: a })), () => [
           (p(), m(k(c.Component), {
             "close-overlay": a,
             "is-open": e.value
@@ -67,12 +67,12 @@ const H = {
         ])
       ]),
       _: 3
-    }, 8, ["route"])) : O("", !0);
+    }, 8, ["route"])) : g("", !0);
   }
-}, A = (n, s) => {
-  const e = n.__vccOpts || n;
-  for (const [o, l] of s)
-    e[o] = l;
+}, A = (o, s) => {
+  const e = o.__vccOpts || o;
+  for (const [n, l] of s)
+    e[n] = l;
   return e;
 }, I = {
   key: 0,
@@ -92,25 +92,25 @@ const H = {
     isOpen: { type: Boolean, default: !1 }
   },
   emits: ["hide"],
-  setup(n, { emit: s }) {
-    const e = n, { isOpen: o } = x(e), l = s;
-    function u() {
+  setup(o, { emit: s }) {
+    const e = o, { isOpen: n } = x(e), l = s;
+    function i() {
       setTimeout(() => {
         console.log("hiding"), l("hide");
       }, 0);
     }
-    const a = v(() => ({
+    const a = f(() => ({
       width: e.width,
-      [e.position]: o.value ? "0" : `-${e.width}`
+      [e.position]: n.value ? "0" : `-${e.width}`
     }));
-    return (i, r) => {
+    return (u, r) => {
       var c;
-      return p(), R(B, null, [
-        M(_(f(o) ? "yes" : "no") + " ", 1),
-        f(o) ? (p(), R("div", I, [
+      return p(), _(B, null, [
+        M(w(v(n) ? "yes" : "no") + " ", 1),
+        v(n) ? (p(), _("div", I, [
           d("div", {
             class: "drawer-backdrop",
-            onClick: u
+            onClick: i
           }),
           d("div", {
             class: "drawer",
@@ -118,30 +118,30 @@ const H = {
           }, [
             d("div", K, [
               d("div", null, [
-                d("span", null, _(((c = f(t).overlayRoute.meta) == null ? void 0 : c.title) ?? ""), 1)
+                d("span", null, w(((c = v(t).overlayRoute.meta) == null ? void 0 : c.title) ?? ""), 1)
               ]),
               d("button", {
                 class: "drawer-close",
-                onClick: u
+                onClick: i
               }, "×")
             ]),
             d("div", L, [
               r[0] || (r[0] = d("div", null, "asdasdsa", -1)),
-              g(i.$slots, "default", {}, void 0, !0)
+              b(u.$slots, "default", {}, void 0, !0)
             ])
           ], 4)
-        ])) : O("", !0)
+        ])) : g("", !0)
       ], 64);
     };
   }
 }, U = /* @__PURE__ */ A(T, [["__scopeId", "data-v-3aad5920"]]), W = {
   __name: "DrawerRouterView",
-  setup(n) {
+  setup(o) {
     return (s, e) => (p(), m(D, null, {
-      default: y(({ isOpen: o, Component: l, closeOverlay: u }) => [
+      default: y(({ isOpen: n, Component: l, closeOverlay: i }) => [
         P(U, {
-          "is-open": o,
-          onHide: u
+          "is-open": n,
+          onHide: i
         }, {
           default: y(() => [
             (p(), m(k(l)))
@@ -158,46 +158,57 @@ const H = {
   overlayRoute: null
 });
 function J() {
-  const n = /* @__PURE__ */ new Set();
+  const o = /* @__PURE__ */ new Set();
   let s = null;
   return {
-    install(e, { router: o }) {
+    install(e, { router: n }) {
       e.component("MainRouterView", H), e.component("OverlayRouterView", D), e.component("DrawerRouterView", W);
-      const l = (a, i = "") => {
+      const l = (a, u = "") => {
         a.forEach((r) => {
           var h;
-          const c = i + (r.path.startsWith("/") ? r.path : `/${r.path}`);
-          (h = r.meta) != null && h.overlay && n.add(r.name || c), r.children && l(r.children, c);
+          const c = u + (r.path.startsWith("/") ? r.path : `/${r.path}`);
+          (h = r.meta) != null && h.overlay && o.add(r.name || c), r.children && l(r.children, c);
         });
       };
-      l(o.getRoutes());
-      const u = (a) => a.name === void 0 && a.matched.length === 0;
-      o.beforeEach((a, i, r) => {
-        if (j(a, n)) {
-          if (u(i)) {
+      l(n.getRoutes());
+      const i = (a) => a.name === void 0 && a.matched.length === 0;
+      n.beforeEach((a, u, r) => {
+        if (j(a, o)) {
+          if (i(u)) {
             s = a.fullPath, r({ path: "/", replace: !0 });
             return;
           }
-          t.isOpen || (t.baseRoute = w(i), t.isOpen = !0), t.overlayRoute = w(a), r();
+          t.isOpen || (t.baseRoute = O(u), t.isOpen = !0), t.overlayRoute = O(a), r();
         } else
           t.isOpen ? t.isOpen = !1 : (t.overlayRoute = null, t.baseRoute = null), r();
-      }), o.afterEach(() => {
-        s && (o.push(s), s = null);
+      }), n.afterEach(() => {
+        s && (n.push(s), s = null);
       }), e.provide("overlayRouter", {
         state: t,
-        isOverlayRoute: (a) => n.has(a),
+        isOverlayRoute: (a) => o.has(a),
         isOverlayActive: () => t.isOpen
       });
     }
   };
 }
-function j(n, s) {
+function j(o, s) {
   var e;
-  return !!((e = n.meta) != null && e.overlay || n.name && s.has(n.name) || n.matched && n.matched.some((o) => {
+  return !!((e = o.meta) != null && e.overlay || o.name && s.has(o.name) || o.matched && o.matched.some((n) => {
     var l;
-    return (l = o.meta) == null ? void 0 : l.overlay;
+    return (l = n.meta) == null ? void 0 : l.overlay;
   }));
 }
+function Q() {
+  const o = R();
+  return {
+    overlayState: t,
+    isOverlayOpen: () => t.isOpen,
+    closeOverlay() {
+      t.baseRoute && o.push(t.baseRoute);
+    }
+  };
+}
 export {
-  J as default
+  J as default,
+  Q as useOverlayRouter
 };
