@@ -1,0 +1,22 @@
+{
+  "name": "vue-drawer-router",
+  "version": "0.0.1",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build-lib": "vite build --mode library",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3",
+    "vue-router": "^4"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "@vitejs/plugin-vue": "^5.0.0"
+  },
+  "main": "dist-lib/drawer-routing.umd.js",
+  "module": "dist-lib/drawer-routing.es.js"
+}
