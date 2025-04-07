@@ -1,31 +1,33 @@
 <!-- components/DrawerView.vue -->
+<script>
+// default function used to filter the matched routes
+const defaultFilterFunction = (matched) => matched.filter(route => route.meta?.overlay === true)
+</script>
+
 <script setup>
-import { computed, onMounted, onBeforeUnmount, reactive } from 'vue'
+import { computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter, RouterView } from 'vue-router'
 import { overlayState } from '../plugins/DrawerRouterPlugin'
 
+const router = useRouter()
+const isOpen = computed(() => overlayState.isOpen)
+
+
 const props = defineProps({
-  width: {
-    type: String,
-    default: '400px'
-  },
-  position: {
-    type: String,
-    default: 'right' // 'right' or 'left'
+  // Function to filter routes - receives matched routes array and returns filtered array
+  filterMatchedRoutes: {
+    type: Function,
+    default: defaultFilterFunction
   }
 })
-
-const router = useRouter()
-
-const isOpen = computed(() => overlayState.isOpen)
 
 // Create a modified version of the current drawer route
 // that removes parent routes from the matched array
 const overlayRouteView = computed(() => {
   if (!overlayState.overlayRoute) return null;
   
-  // Find the last drawer component in the matched routes
-  const matched = [...overlayState.overlayRoute.matched].filter(_route => _route.meta?.overlay===true);
+  // filter the matched routes
+  const matched = props.filterMatchedRoutes([...overlayState.overlayRoute.matched])
   
   // Create a modified route object with only the drawer views
   // This prevents non-drawer views from being rendered in the drawer

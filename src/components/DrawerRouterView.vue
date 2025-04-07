@@ -1,15 +1,15 @@
 <!-- components/DrawerView.vue -->
 <script setup>
-import OverlayView from './OverlayView.vue'
+import OverlayRouterView from './OverlayRouterView.vue'
 import Drawer from './Drawer.vue'
 </script>
 
 <template>
-  <OverlayView v-slot="{isOpen, Component, closeOverlay}">
+  <OverlayRouterView v-slot="{isOpen, Component, closeOverlay}">
     <Drawer :is-open="isOpen" @hide="closeOverlay">
       <component :is="Component"/>
     </Drawer>
-  </OverlayView>
+  </OverlayRouterView>
 </template>
 
 <style scoped></style>
