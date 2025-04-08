@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
+import externalGlobals from 'rollup-plugin-external-globals'
 
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -26,7 +27,12 @@ export default defineConfig(({ command, mode }) => {
               vue: 'Vue',
               'vue-router': 'VueRouter'
             }
-          }
+          },
+          plugins: [
+            externalGlobals({
+                bootstrap: 'bootstrap',
+            }),
+          ],
         },
         outDir: 'dist-lib'
       }

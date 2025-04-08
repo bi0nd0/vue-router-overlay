@@ -71,9 +71,11 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <RouterView v-if="overlayRouteView" :route="overlayRouteView" v-slot="routerProps">
+  <RouterView :route="overlayRouteView" v-slot="routerProps">
     <slot v-bind="{...routerProps, isOpen, closeOverlay}">
-      <component :is="routerProps.Component" :close-overlay="closeOverlay" :is-open="isOpen" />
+      <template v-if="overlayRouteView">
+        <component :is="routerProps.Component" :close-overlay="closeOverlay" :is-open="isOpen" />
+      </template>
     </slot>
   </RouterView>
 </template>

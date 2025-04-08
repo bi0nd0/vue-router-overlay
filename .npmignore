@@ -1,0 +1,30 @@
+# Exclude the node_modules folder
+node_modules/
+
+# Exclude source files if you’re compiling them (optional)
+src/
+
+# Exclude test directories and related files
+test/
+tests/
+*.spec.js
+*.test.js
+
+# Exclude build configuration and local development files
+*.config.js
+gulpfile.js
+Gruntfile.js
+
+# Exclude log files
+*.log
+
+# Exclude git directory and related files
+.git/
+.gitignore
+
+# Exclude this file itself
+.npmignore
+
+# exclude the dist
+dist
+index.html

@@ -35,7 +35,6 @@ const drawerStyle = computed(() => ({
 </script>
 
 <template>
-  {{ isOpen ? 'yes' : 'no' }}
   <div class="drawer-container" v-if="isOpen">
     <div class="drawer-backdrop" @click="closeDrawer"></div>
     <div class="drawer" :style="drawerStyle">

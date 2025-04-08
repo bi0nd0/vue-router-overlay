@@ -1,83 +1,81 @@
-import { computed as f, createBlock as m, openBlock as p, unref as v, onMounted as E, onBeforeUnmount as S, createCommentVNode as g, withCtx as y, renderSlot as b, normalizeProps as $, guardReactiveProps as C, resolveDynamicComponent as k, toRefs as x, createElementBlock as _, Fragment as B, createTextVNode as M, toDisplayString as w, createElementVNode as d, normalizeStyle as N, createVNode as P, reactive as F, markRaw as O } from "vue";
-import { useRouter as R, RouterView as V } from "vue-router";
-const H = {
+import { computed as v, createBlock as f, openBlock as p, unref as m, onMounted as V, onBeforeUnmount as D, withCtx as y, renderSlot as w, normalizeProps as E, guardReactiveProps as S, createCommentVNode as O, resolveDynamicComponent as b, toRefs as $, createElementBlock as C, createElementVNode as d, normalizeStyle as B, toDisplayString as M, createVNode as P, reactive as x, markRaw as _ } from "vue";
+import { useRouter as R, RouterView as g } from "vue-router";
+const N = {
   __name: "MainRouterView",
   setup(o) {
-    const s = R(), e = () => t.baseRoute || s.currentRoute.value, n = f(() => {
+    const s = R(), e = () => t.baseRoute || s.currentRoute.value, a = v(() => {
       if (t.isOpen && t.baseRoute) {
-        const i = t.baseRoute, a = [...i.matched].filter(
-          (u) => {
+        const u = t.baseRoute, n = [...u.matched].filter(
+          (i) => {
             var r;
-            return ((r = u.meta) == null ? void 0 : r.overlay) !== !0;
+            return ((r = i.meta) == null ? void 0 : r.overlay) !== !0;
           }
         );
         return {
-          ...i,
-          matched: a
+          ...u,
+          matched: n
         };
       }
       return e();
-    }), l = f(() => n.value.fullPath);
-    return (i, a) => (p(), m(v(V), {
+    }), l = v(() => a.value.fullPath);
+    return (u, n) => (p(), f(m(g), {
       key: l.value,
-      route: n.value
+      route: a.value
     }, null, 8, ["route"]));
   }
-}, z = (o) => o.filter((s) => {
+}, F = (o) => o.filter((s) => {
   var e;
   return ((e = s.meta) == null ? void 0 : e.overlay) === !0;
-}), D = {
+}), k = {
   __name: "OverlayRouterView",
   props: {
     // Function to filter routes - receives matched routes array and returns filtered array
     filterMatchedRoutes: {
       type: Function,
-      default: z
+      default: F
     }
   },
   setup(o) {
-    const s = R(), e = f(() => t.isOpen), n = o, l = f(() => {
+    const s = R(), e = v(() => t.isOpen), a = o, l = v(() => {
       if (!t.overlayRoute) return null;
-      const u = n.filterMatchedRoutes([...t.overlayRoute.matched]);
+      const i = a.filterMatchedRoutes([...t.overlayRoute.matched]);
       return {
         ...t.overlayRoute,
-        matched: u
+        matched: i
       };
     });
-    function i(u) {
-      u.key === "Escape" && e.value && a();
+    function u(i) {
+      i.key === "Escape" && e.value && n();
     }
-    const a = () => {
+    const n = () => {
       console.log("closing drawer"), t.baseRoute && s.push(t.baseRoute);
     };
-    return E(() => {
-      window.addEventListener("keydown", i);
-    }), S(() => {
-      window.removeEventListener("keydown", i);
-    }), (u, r) => l.value ? (p(), m(v(V), {
-      key: 0,
-      route: l.value
-    }, {
+    return V(() => {
+      window.addEventListener("keydown", u);
+    }), D(() => {
+      window.removeEventListener("keydown", u);
+    }), (i, r) => (p(), f(m(g), { route: l.value }, {
       default: y((c) => [
-        b(u.$slots, "default", $(C({ ...c, isOpen: e.value, closeOverlay: a })), () => [
-          (p(), m(k(c.Component), {
-            "close-overlay": a,
+        w(i.$slots, "default", E(S({ ...c, isOpen: e.value, closeOverlay: n })), () => [
+          l.value ? (p(), f(b(c.Component), {
+            key: 0,
+            "close-overlay": n,
             "is-open": e.value
-          }, null, 8, ["is-open"]))
+          }, null, 8, ["is-open"])) : O("", !0)
         ])
       ]),
       _: 3
-    }, 8, ["route"])) : g("", !0);
+    }, 8, ["route"]));
   }
-}, A = (o, s) => {
+}, H = (o, s) => {
   const e = o.__vccOpts || o;
-  for (const [n, l] of s)
-    e[n] = l;
+  for (const [a, l] of s)
+    e[a] = l;
   return e;
-}, I = {
+}, z = {
   key: 0,
   class: "drawer-container"
-}, K = { class: "drawer-header" }, L = { class: "drawer-content" }, T = {
+}, A = { class: "drawer-header" }, I = { class: "drawer-content" }, K = {
   __name: "Drawer",
   props: {
     width: {
@@ -93,58 +91,55 @@ const H = {
   },
   emits: ["hide"],
   setup(o, { emit: s }) {
-    const e = o, { isOpen: n } = x(e), l = s;
-    function i() {
+    const e = o, { isOpen: a } = $(e), l = s;
+    function u() {
       setTimeout(() => {
         console.log("hiding"), l("hide");
       }, 0);
     }
-    const a = f(() => ({
+    const n = v(() => ({
       width: e.width,
-      [e.position]: n.value ? "0" : `-${e.width}`
+      [e.position]: a.value ? "0" : `-${e.width}`
     }));
-    return (u, r) => {
+    return (i, r) => {
       var c;
-      return p(), _(B, null, [
-        M(w(v(n) ? "yes" : "no") + " ", 1),
-        v(n) ? (p(), _("div", I, [
-          d("div", {
-            class: "drawer-backdrop",
-            onClick: i
-          }),
-          d("div", {
-            class: "drawer",
-            style: N(a.value)
-          }, [
-            d("div", K, [
-              d("div", null, [
-                d("span", null, w(((c = v(t).overlayRoute.meta) == null ? void 0 : c.title) ?? ""), 1)
-              ]),
-              d("button", {
-                class: "drawer-close",
-                onClick: i
-              }, "×")
+      return m(a) ? (p(), C("div", z, [
+        d("div", {
+          class: "drawer-backdrop",
+          onClick: u
+        }),
+        d("div", {
+          class: "drawer",
+          style: B(n.value)
+        }, [
+          d("div", A, [
+            d("div", null, [
+              d("span", null, M(((c = m(t).overlayRoute.meta) == null ? void 0 : c.title) ?? ""), 1)
             ]),
-            d("div", L, [
-              r[0] || (r[0] = d("div", null, "asdasdsa", -1)),
-              b(u.$slots, "default", {}, void 0, !0)
-            ])
-          ], 4)
-        ])) : g("", !0)
-      ], 64);
+            d("button", {
+              class: "drawer-close",
+              onClick: u
+            }, "×")
+          ]),
+          d("div", I, [
+            r[0] || (r[0] = d("div", null, "asdasdsa", -1)),
+            w(i.$slots, "default", {}, void 0, !0)
+          ])
+        ], 4)
+      ])) : O("", !0);
     };
   }
-}, U = /* @__PURE__ */ A(T, [["__scopeId", "data-v-3aad5920"]]), W = {
+}, L = /* @__PURE__ */ H(K, [["__scopeId", "data-v-ddc8c3b0"]]), T = {
   __name: "DrawerRouterView",
   setup(o) {
-    return (s, e) => (p(), m(D, null, {
-      default: y(({ isOpen: n, Component: l, closeOverlay: i }) => [
-        P(U, {
-          "is-open": n,
-          onHide: i
+    return (s, e) => (p(), f(k, null, {
+      default: y(({ isOpen: a, Component: l, closeOverlay: u }) => [
+        P(L, {
+          "is-open": a,
+          onHide: u
         }, {
           default: y(() => [
-            (p(), m(k(l)))
+            (p(), f(b(l)))
           ]),
           _: 2
         }, 1032, ["is-open", "onHide"])
@@ -152,53 +147,53 @@ const H = {
       _: 1
     }));
   }
-}, t = F({
+}, t = x({
   isOpen: !1,
   baseRoute: null,
   overlayRoute: null
 });
-function J() {
+function q() {
   const o = /* @__PURE__ */ new Set();
   let s = null;
   return {
-    install(e, { router: n }) {
-      e.component("MainRouterView", H), e.component("OverlayRouterView", D), e.component("DrawerRouterView", W);
-      const l = (a, u = "") => {
-        a.forEach((r) => {
+    install(e, { router: a }) {
+      e.component("MainRouterView", N), e.component("OverlayRouterView", k), e.component("DrawerRouterView", T);
+      const l = (n, i = "") => {
+        n.forEach((r) => {
           var h;
-          const c = u + (r.path.startsWith("/") ? r.path : `/${r.path}`);
+          const c = i + (r.path.startsWith("/") ? r.path : `/${r.path}`);
           (h = r.meta) != null && h.overlay && o.add(r.name || c), r.children && l(r.children, c);
         });
       };
-      l(n.getRoutes());
-      const i = (a) => a.name === void 0 && a.matched.length === 0;
-      n.beforeEach((a, u, r) => {
-        if (j(a, o)) {
-          if (i(u)) {
-            s = a.fullPath, r({ path: "/", replace: !0 });
+      l(a.getRoutes());
+      const u = (n) => n.name === void 0 && n.matched.length === 0;
+      a.beforeEach((n, i, r) => {
+        if (U(n, o)) {
+          if (u(i)) {
+            s = n.fullPath, r({ path: "/", replace: !0 });
             return;
           }
-          t.isOpen || (t.baseRoute = O(u), t.isOpen = !0), t.overlayRoute = O(a), r();
+          t.isOpen || (t.baseRoute = _(i), t.isOpen = !0), t.overlayRoute = _(n), r();
         } else
           t.isOpen ? t.isOpen = !1 : (t.overlayRoute = null, t.baseRoute = null), r();
-      }), n.afterEach(() => {
-        s && (n.push(s), s = null);
+      }), a.afterEach(() => {
+        s && (a.push(s), s = null);
       }), e.provide("overlayRouter", {
         state: t,
-        isOverlayRoute: (a) => o.has(a),
+        isOverlayRoute: (n) => o.has(n),
         isOverlayActive: () => t.isOpen
       });
     }
   };
 }
-function j(o, s) {
+function U(o, s) {
   var e;
-  return !!((e = o.meta) != null && e.overlay || o.name && s.has(o.name) || o.matched && o.matched.some((n) => {
+  return !!((e = o.meta) != null && e.overlay || o.name && s.has(o.name) || o.matched && o.matched.some((a) => {
     var l;
-    return (l = n.meta) == null ? void 0 : l.overlay;
+    return (l = a.meta) == null ? void 0 : l.overlay;
   }));
 }
-function Q() {
+function G() {
   const o = R();
   return {
     overlayState: t,
@@ -209,6 +204,6 @@ function Q() {
   };
 }
 export {
-  J as default,
-  Q as useOverlayRouter
+  q as default,
+  G as useOverlayRouter
 };
